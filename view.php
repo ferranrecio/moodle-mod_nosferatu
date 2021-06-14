@@ -53,4 +53,7 @@ if (!empty($instance->intro)) {
 $widget = new mod_nosferatu\output\content($manager);
 echo $OUTPUT->render($widget);
 
+// Init state object.
+$PAGE->requires->js_call_amd('mod_nosferatu/nosferatu', 'init', [$moduleinstance->id]);
+
 echo $OUTPUT->footer();

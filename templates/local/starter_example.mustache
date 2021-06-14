@@ -1,0 +1,61 @@
+
+<div  id="{{uniqid}}-mod-nosferatu-city">
+    <ul class="mod_nosfetaru_city">
+        <li data-for="person" class="citizen" data-id="1">
+            <p data-for="personname">
+                Carlos
+                <span class="isbitten badge badge-danger float-right">Bitten!</span>
+            </p>
+
+        </li>
+        <li data-for="person" class="citizen" data-id="2">
+            <p data-for="personname">
+                Amaia
+                <span class="isbitten badge badge-danger float-right">Bitten!</span>
+            </p>
+        </li>
+        <li data-for="person" class="citizen" data-id="3">
+            <p data-for="personname">
+                Sara
+                <span class="isbitten badge badge-danger float-right">Bitten!</span>
+            </p>
+        </li>
+        <li data-for="person" class="citizen" data-id="4">
+            <p data-for="personname">
+                Ilya
+                <span class="isbitten badge badge-danger float-right">Bitten!</span>
+            </p>
+        </li>
+        <li data-for="person" class="citizen" data-id="5">
+            <p data-for="personname">
+                Ferran
+                <span class="isbitten badge badge-danger float-right">Bitten!</span>
+            </p>
+        </li>
+    </ul>
+    <div class="p-3">
+        <form data-for="vampire"  class="form-inline" action="#" method="POST">
+            <div class="form-group">
+                <label for="victimSelector">Select the next victim </label>
+                <select class="form-control" id="victimSelector" name="victim">
+                    <option value="1">Carlos</option>
+                    <option value="2">Amaia</option>
+                    <option value="3">Sara</option>
+                    <option value="4">Ilya</option>
+                    <option value="5">Ferran</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-secondary">🧛 Bite!</button>
+        </form>
+    </div>
+    <div class="p-3">
+        <button data-for="doctor" data-for="reset" type="submit" class="btn btn-secondary">
+            👩‍⚕️ Cure all citizens
+        </button>
+    </div>
+</div>
+{{#js}}
+require(['mod_nosferatu/local/starter_example'], function(component) {
+    component.init('{{uniqid}}-mod-nosferatu-city');
+});
+{{/js}}

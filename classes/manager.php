@@ -112,7 +112,7 @@ class manager {
         if (empty($user)) {
             $user = $USER;
         }
-        return has_capability('mod/' . self::FOLDER .':editentries', $this->context, $user);
+        return has_capability('mod/nosferatu:editentries', $this->context, $user);
     }
 
     /**
@@ -300,7 +300,7 @@ class manager {
                 ],
                 'Activity general data'
             ),
-            'entires' => new external_multiple_structure(
+            'entries' => new external_multiple_structure(
                 self::get_entry_structure(),
                 'The activity entries list'
             ),

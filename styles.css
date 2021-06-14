@@ -1,0 +1,34 @@
+
+/* Bouncing effect */
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-50px);
+    }
+}
+
+.mod_nosferatu_loading {
+    background-color: red;
+    animation: bounce 0.8s infinite alternate;
+}
+
+.mod_nosfetaru_city .citizen {
+    border: 2px solid lightblue;
+    margin-bottom: .3em;
+    padding: 1em 1em 0 1em;
+    list-style-type: none;
+}
+
+.mod_nosfetaru_city .citizen .isbitten {
+    display: none;
+}
+
+.mod_nosfetaru_city .citizen.bitten {
+    border-color: red;
+}
+
+.mod_nosfetaru_city .citizen.bitten .isbitten {
+    display: block;
+}

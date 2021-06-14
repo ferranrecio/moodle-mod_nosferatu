@@ -17,13 +17,13 @@
 /**
  * This is the external method for getting the information needed to present an attempts report.
  *
- * @package    mod_h5pactivity
+ * @package    mod_nosferatu
  * @since      Moodle 3.9
  * @copyright  2020 Ferran Recio <ferran@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_h5pactivity\external;
+namespace mod_nosferatu\external;
 
 defined('MOODLE_INTERNAL') || die();
 

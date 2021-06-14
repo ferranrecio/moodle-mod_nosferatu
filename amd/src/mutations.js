@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -14,27 +13,37 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+import ajax from 'core/ajax';
+
 /**
- * H5P activity external functions and service definitions.
+ * Default mutation manager
  *
- * @package    mod_nosferatu
+ * @module     mod_nosferatu/mutations
+ * @class     mod_nosferatu/mutations
  * @copyright  2021 Ferran Recio <ferran@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+class Mutations {
 
-$functions = [
-    'mod_nosferatu_get_state' => [
-        'classname'     => 'mod_nosferatu\external\get_state',
-        'description'   => 'Return the activity state.',
-        'type'          => 'read',
-        'capabilities'  => 'mod/nosferatu:view',
-        'ajax'          => true,
-    ],
-    'mod_nosferatu_put_entry' => [
-        'classname'     => 'mod_nosferatu\external\put_entry',
-        'description'   => 'Update or create a nosferatu activity entry.',
-        'type'          => 'write',
-        'capabilities'  => 'mod/nosferatu:view',
-        'ajax'          => true,
-    ],
-];
+    /**
+     * Private method to call core_courseformat_update_course webservice.
+     *
+     * @method _callPutEntryWebservice
+     * @param {int} activityid the activity id
+     * @param {object} fields the entry fields
+     * @param {array} of state updates
+     */
+    async _callPutEntryWebservice(activityid, fields) {
+        let ajaxresult = await ajax.call([{
+            methodname: 'mod_nosferatu_put_entry',
+            args: {
+                activityid,
+                fields,
+            }
+        }])[0];
+        return ajaxresult;
+    }
+
+}
+
+export const mutations = new Mutations();
