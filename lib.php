@@ -47,7 +47,7 @@ function nosferatu_add_instance(stdClass $data, mod_nosferatu_mod_form $mform = 
     $data->timemodified = $data->timecreated;
     $cmid = $data->coursemodule;
 
-    $data->id = $DB->insert_record(manager::FOLDER, $data);
+    $data->id = $DB->insert_record(manager::MODULE, $data);
 
     // We need to use context now, so we need to make sure all needed info is already in db.
     $DB->set_field('course_modules', 'instance', $data->id, ['id' => $cmid]);
@@ -76,7 +76,7 @@ function nosferatu_update_instance(stdClass $data, mod_nosferatu_mod_form $mform
     // Update gradings if grading method or tracking are modified.
     $data->cmid = $data->coursemodule;
 
-    return $DB->update_record(manager::FOLDER, $data);
+    return $DB->update_record(manager::MODULE, $data);
 }
 
 /**
@@ -88,12 +88,12 @@ function nosferatu_update_instance(stdClass $data, mod_nosferatu_mod_form $mform
 function nosferatu_delete_instance(int $id): bool {
     global $DB;
 
-    $activity = $DB->get_record(manager::FOLDER, ['id' => $id]);
+    $activity = $DB->get_record(manager::MODULE, ['id' => $id]);
     if (!$activity) {
         return false;
     }
 
-    $DB->delete_records(manager::FOLDER, ['id' => $id]);
+    $DB->delete_records(manager::MODULE, ['id' => $id]);
 
     return true;
 }
@@ -108,7 +108,7 @@ function nosferatu_delete_instance(int $id): bool {
  */
 function nosferatu_page_type_list(string $pagetype, ?stdClass $parentcontext, stdClass $currentcontext): array {
     $modulepagetype = [
-        'mod-' . manager::FOLDER . '-*' => get_string('page-mod-' . manager::FOLDER . '-x', manager::FOLDER),
+        'mod-' . manager::MODULE . '-*' => get_string('page-mod-' . manager::MODULE . '-x', manager::MODULE),
     ];
     return $modulepagetype;
 }

@@ -87,5 +87,3 @@ export const init = (cmid) => {
 
 // While we don't have dev tools, save reactive globally.
 config.nosferatu = nosferatu;
-
-

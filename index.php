@@ -24,7 +24,7 @@ $event = \mod_nosferatu\event\course_module_instance_list_viewed::create(['conte
 $event->add_record_snapshot('course', $course);
 $event->trigger();
 
-$PAGE->set_url('/mod/' . manager::FOLDER . '/index.php', ['id' => $id]);
+$PAGE->set_url('/mod/' . manager::MODULE . '/index.php', ['id' => $id]);
 $PAGE->set_title(format_string($course->fullname));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($coursecontext);
@@ -34,7 +34,7 @@ echo $OUTPUT->header();
 $modulenameplural = get_string('modulenameplural', manager::PLUGIN);
 echo $OUTPUT->heading($modulenameplural);
 
-$activities = get_all_instances_in_course(manager::FOLDER, $course);
+$activities = get_all_instances_in_course(manager::MODULE, $course);
 
 if (empty($activities)) {
     notice(get_string('thereareno', 'moodle'), new moodle_url('/course/view.php', ['id' => $course->id]));
@@ -62,7 +62,7 @@ foreach ($activities as $activity) {
         $attributes['class'] = 'dimmed';
     }
     $link = html_writer::link(
-        new moodle_url('/mod/' . manager::FOLDER . '/view.php', ['id' => $activity->coursemodule]),
+        new moodle_url('/mod/' . manager::MODULE . '/view.php', ['id' => $activity->coursemodule]),
         format_string($activity->name, true),
         $attributes
     );

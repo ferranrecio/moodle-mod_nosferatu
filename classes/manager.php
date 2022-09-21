@@ -47,7 +47,7 @@ class manager {
     public const PLUGIN = 'mod_nosferatu';
 
     /** The folder name. */
-    public const FOLDER = 'nosferatu';
+    public const MODULE = 'nosferatu';
 
     /** @var stdClass course_module record. */
     private $instance;
@@ -78,7 +78,7 @@ class manager {
      * @return manager
      */
     public static function create_from_instance(stdClass $instance): self {
-        $coursemodule = get_coursemodule_from_instance(self::FOLDER, $instance->id);
+        $coursemodule = get_coursemodule_from_instance(self::MODULE, $instance->id);
         // Ensure that $this->coursemodule is a cm_info object.
         $coursemodule = cm_info::create($coursemodule);
         return new self($coursemodule, $instance);
@@ -94,7 +94,7 @@ class manager {
         global $DB;
         // Ensure that $this->coursemodule is a cm_info object.
         $coursemodule = cm_info::create($coursemodule);
-        $instance = $DB->get_record(self::FOLDER, ['id' => $coursemodule->instance], '*', MUST_EXIST);
+        $instance = $DB->get_record(self::MODULE, ['id' => $coursemodule->instance], '*', MUST_EXIST);
         return new self($coursemodule, $instance);
     }
 
@@ -159,7 +159,7 @@ class manager {
         ]);
         $event->add_record_snapshot('course', $course);
         $event->add_record_snapshot('course_modules', $this->coursemodule);
-        $event->add_record_snapshot(self::FOLDER, $this->instance);
+        $event->add_record_snapshot(self::MODULE, $this->instance);
         $event->trigger();
 
         // Completion.

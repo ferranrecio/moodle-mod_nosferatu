@@ -29,9 +29,9 @@ class Mutations {
      * Private method to call core_courseformat_update_course webservice.
      *
      * @method _callPutEntryWebservice
-     * @param {int} activityid the activity id
-     * @param {object} fields the entry fields
-     * @param {array} of state updates
+     * @param {Number} activityid the activity id
+     * @param {Object} fields the entry fields
+     * @return {Array} of state updates
      */
     async _callPutEntryWebservice(activityid, fields) {
         let ajaxresult = await ajax.call([{

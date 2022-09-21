@@ -29,7 +29,6 @@
  * so don't worry too much about not following the Moodle conventions right now.
  *
  * @module     mod_nosferatu/local/starter_example
- * @package    core_course
  * @copyright  2020 Ferran Recio <ferran@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -237,7 +236,8 @@ class CitizenList extends BaseComponent {
      * - element: the afected element (a person in this case)
      * - state: the full state object
      *
-     * @param {object} element the person structure.
+     * @param {object} param the watcher param.
+     * @param {object} param.element the person structure.
      */
     _refreshPerson({element}) {
         // We have a convenience method to locate elements inside the component.

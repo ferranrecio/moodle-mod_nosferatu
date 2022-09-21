@@ -83,7 +83,7 @@ class put_entry extends external_api {
         $warnings = [];
 
         // Request and permission validation.
-        list($course, $cm) = get_course_and_cm_from_instance($activityid, manager::FOLDER);
+        list($course, $cm) = get_course_and_cm_from_instance($activityid, manager::MODULE);
 
         $context = context_module::instance($cm->id);
         self::validate_context($context);
