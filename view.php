@@ -42,11 +42,6 @@ $PAGE->set_context($context);
 echo $OUTPUT->header();
 echo $OUTPUT->heading(format_string($instance->name));
 
-// Render the activity information.
-$completiondetails = \core_completion\cm_completion_details::get_instance($cm, $USER->id);
-$activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
-echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
-
 $instance = $manager->get_instance();
 if (!empty($instance->intro)) {
     echo $OUTPUT->box(format_module_intro('nosferatu', $instance, $cm->id), 'generalbox', 'intro');
