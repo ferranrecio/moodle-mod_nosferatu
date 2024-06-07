@@ -28,10 +28,12 @@ use context_module;
 use cm_info;
 use stdClass;
 use mod_nosferatu\event\course_module_viewed;
+use mod_nosferatu\output\templatecomponents;
 use external_single_structure;
 use external_multiple_structure;
 use external_value;
 use moodle_exception;
+use moodle_url;
 
 /**
  * Class manager for nosferatu activity
@@ -140,6 +142,41 @@ class manager {
      */
     public function get_coursemodule(): cm_info {
         return $this->coursemodule;
+    }
+
+    /**
+     * Return the current view url.
+     *
+     * @param string $section the section to view
+     * @return moodle_url the view url
+     */
+    public function get_view_url(string $section = ''): moodle_url {
+        $params = ['id' => $this->coursemodule->id];
+        if (!empty($section)) {
+            $params['section'] = $section;
+        }
+        return new moodle_url(
+            '/mod/' . self::MODULE . '/view.php',
+            $params
+        );
+    }
+
+    public function get_section_content(string $section = ''): ?string {
+        global $CFG, $OUTPUT;
+        if (file_exists($CFG->dirroot . '/mod/' . self::MODULE . '/templates/local/' . $section . '.mustache')) {
+            $templatename = 'mod_nosferatu/local/' . $section;
+            return $OUTPUT->render_from_template($templatename, []);
+        }
+
+        $classname = 'mod_nosferatu\\output\\' . $section;
+
+        if (class_exists($classname)) {
+            $widget = new $classname($this);
+        } else {
+            $widget = new templatecomponents($this);
+        }
+
+        return $OUTPUT->render($widget);
     }
 
     /**

@@ -1,0 +1,132 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_nosferatu/local/templatecomponents/intro02/todolist
+
+    This is an example of a TemplateComponent.
+
+    This component is a simple todo list. It has a form to add new tasks, a list of
+    tasks to do and a list of tasks done. In a real scenario, it is expected that
+    the UI will use a more complex structure, splitting some of the logic to subcomponents.
+    For example, each entry in the list could be a subcomponentm (to avoid repeteing the HTML),
+    and the form could be another subcomponent. You will see this in next examples.
+
+    This template init a Template Component. This means that the UI will be updated automatically
+    when the state changes. This is done using the TemplateComponent API.
+
+    Example context (json):
+    {
+    }
+}}
+<div data-mdl-region="todolist">
+    {{^hastasks}}
+    <div class="alert alert-info" role="alert">
+        No intems in the todo list.
+    </div>
+    {{/hastasks}}
+    {{#hastasks}}
+    <div>
+        <p class="mb-0 mt-2">Tasks to do:</p>
+        {{^hastodo}}
+        <div class="alert alert-info" role="alert">
+            No intems in the todo list.
+        </div>
+        {{/hastodo}}
+        {{#hastodo}}
+        <ul class="list-group">
+            {{#todo}}
+            <li
+                class="list-group-item d-flex align-items-center clickable"
+                data-mdl-nosferatu-action="markDone"
+                data-mdl-nosferatu-id="{{id}}"
+                {{! The data-mdl-key is used to identify the element in the list. It is
+                    important to avoid re-rendering the whole list when a single element
+                    is updated. You will learn more about this in the next examples. }}
+                data-mdl-key="task{{id}}"
+            >
+                <span class="badge badge-secondary">
+                    <i class="fa fa-square"></i>
+                    To do
+                </span>
+                <span class="mx-2">{{name}}</span>
+            </li>
+            {{/todo}}
+        </ul>
+        {{/hastodo}}
+    </div>
+    <div>
+        <p class="mb-0 mt-2">Done tasks:</p>
+        {{^hasdone}}
+        <div class="alert alert-info" role="alert">
+            No intems in the done list.
+        </div>
+        {{/hasdone}}
+        {{#hasdone}}
+        <ul class="list-group">
+            {{#done}}
+            <li
+                class="list-group-item d-flex align-items-center clickable"
+                data-mdl-nosferatu-action="markTodo"
+                data-mdl-nosferatu-id="{{id}}"
+                {{! The data-mdl-key is used to identify the element in the list. It is
+                    important to avoid re-rendering the whole list when a single element
+                    is updated. You will learn more about this in the next examples. }
+                data-mdl-key="task{{id}}"
+            >
+                <span class="badge badge-success">
+                    <i class="fa fa-check"></i>
+                    Done
+                </span>
+                <span class="mx-2">{{name}}</span>
+                <button
+                    class="btn btn-danger btn-sm ml-auto"
+                    data-mdl-nosferatu-action="removeTask"
+                    data-mdl-nosferatu-id="{{id}}"
+                ><i class="fa fa-trash"></i>
+            </li>
+            {{/done}}
+        </ul>
+        {{/hasdone}}
+    </div>
+    {{/hastasks}}
+    <form
+        class="form-inline pt-3"
+    >
+        <input
+            class="form-control"
+            type="text"
+            name="name"
+            placeholder="Name"
+            data-mdl-ref="name"
+            autocomplete="off"
+        >
+        <input
+            class="btn btn-primary ml-2"
+            type="submit"
+            value="Add new task"
+            data-mdl-ref="button"
+        >
+    </form>
+</div>
+{{#js}}
+require([
+    'mod_nosferatu/local/templatecomponents/intro02/todolist',
+    'mod_nosferatu/local/templatecomponents/intro02/app',
+], function(component, App) {
+    component.createTemplateComponent('[data-mdl-region="todolist"]', App.reactive);
+});
+{{/js}}

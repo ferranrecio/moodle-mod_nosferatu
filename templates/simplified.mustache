@@ -1,0 +1,78 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_nosferatu/simplified
+
+    This template include all the reactive aplication.
+
+    In this example the state is loaded almost inmidiate because it is a fully frontend
+    aplication. However, in future examples it will act as an async loader.
+
+    Example context (json):
+    {
+    }
+}}
+<div
+    {{! This is the main container of the application. This is why we use a unique id. }}
+    id="mod-nosferatu-main"
+    class="nosferatuapp"
+>
+    <p
+        {{!
+            Adding a resfresh static will avoid this element to be re-rendered.
+            This will accelerate the refresh process.
+        }}
+        data-mdl-refresh="static"
+    >
+        This example show how to work with TemplateComponent,
+        the easier way of using reactive components.
+    </p>
+    <div>
+        {{^haspeople}}
+        <div class="alert alert-secondary">Empty people list.</div>
+        {{/haspeople}}
+        {{#haspeople}}
+        <ul class="mod_nosfetaru_city pl-0">
+            {{#people}}
+            <li
+                class="{{#bitten}} bitten {{/bitten}} citizen"
+                {{!
+                    It is important to include mdl-data-keys to any element that can be
+                    moved between refreshes. This will allow the refresh system to
+                    keep the state of the element. It is especially important in
+                    lists because when the order changes, the elements are not
+                    re-created, they are just moved.
+                }}
+                data-mdl-key="person{{id}}"
+            >
+                {{> mod_nosferatu/local/simplified/person }}
+            </li>
+            {{/people}}
+        </ul>
+        {{/haspeople}}
+    </div>
+    <div class="controls" data-mdl-key="controls">
+        {{> mod_nosferatu/local/simplified/vampire }}
+        {{> mod_nosferatu/local/simplified/doctor }}
+        {{> mod_nosferatu/local/simplified/addperson }}
+    </div>
+</div>
+{{#js}}
+require([
+    'mod_nosferatu/local/simplified',
+    'mod_nosferatu/local/simplified/app',
+], function(component, App) {
+    component.createTemplateComponent('#mod-nosferatu-main', App.reactive);
+});
+{{/js}}

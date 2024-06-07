@@ -61,7 +61,11 @@ class action_bar {
                 'section' => 'starter',
             ],
             [
-                'name' => 'Beginner',
+                'name' => 'Basics',
+                'section' => 'templatecomponents',
+            ],
+            [
+                'name' => 'Advanced',
                 'section' => 'beginner',
             ],
         ];

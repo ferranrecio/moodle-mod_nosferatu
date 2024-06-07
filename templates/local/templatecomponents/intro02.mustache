@@ -1,0 +1,155 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_nosferatu/local/templatecomponents/intro02
+
+    TODO describe template intro02
+
+    Example context (json):
+    {
+    }
+}}
+<h3>Reactivity best friend: Template Components (Virtual DOM differ)</h3>
+<p>
+    Since Moodle 5.0 the Reactive API has been powered up with a Virtual DOM differ.
+    I am aware that this won't say much to you right now, but it could be a game changer
+    for how UI is made in Moodle.
+</p>
+
+<p>
+    In the previous example we use BaseComponent to create a couple of simple components.
+    Using directly a BaseComponent is ideal for complex applications where optimizations
+    is a must. For example, the Course Editor is entirely based on BaseComponents because
+    it is a key element of the Moodle experience and must be as fast as possible. However,
+    for most simple components, we can save a lot of line of code by using the new
+    TemplateComponent.
+</p>
+
+<p>
+    As the name suggests, TemplateComponent is a component that is based on a mustache
+    template. When a component extends TemplateComponent, the template is automatically
+    refreshed when the state changes and it only updates the part of the DOM that has
+    changed. This is a huge improvement over the previous version of the Reactive API
+    where each component was responsible for implementing it's own UI updates.
+</p>
+
+<h3 class="mt-5">Example</h3>
+
+<p>
+    Let's go with an example. In this case we want to implement a simple TODO list.
+    This time, the state and reactive instance will be create in it's own module,
+    and the component will have a specific mustache file with an associated AMD module.
+    This is the normal way to proceed from now on.
+</p>
+
+{{! This is all we need to include a TemplateComponent to our page. }}
+{{> mod_nosferatu/local/templatecomponents/intro02/todolist}}
+
+<h2 class="mt-5">Let's see how this works</h2>
+
+<p>
+    In this example all the logic is divided in three files:
+</p>
+
+<ul>
+    <li>
+        <strong>mod/nosferatu/amd/src/local/templatecomponents/intro02/app.js</strong><br>
+        This file is responsible for creating the state, the reactive instance, and all the
+        necessary state mutations.
+    </li>
+    <li>
+        <strong>mod/nosferatu/amd/src/local/templatecomponents/intro02/todolist.mustache</strong><br>
+        This is the component template. It is responsible for rendering the HTML and also
+        for initializing the component.
+    </li>
+    <li>
+        <strong>mod/nosferatu/amd/src/local/templatecomponents/intro02/todolist.js</strong><br>
+        This is the component file. It is responsible for defining the component logic, and
+        capturing any user interaction.
+    </li>
+</ul>
+
+<p>I recommend you to open this file in your editor to follow the code.</p>
+
+<p>Those are some code key points:</p>
+
+<ol>
+    <li>
+        To keep the example simple, all elements are builded in a single component. This is unusual
+        in reactive applications. Normally, you will have a component for each element in the list,
+        and onther for the add task form.
+    </li>
+    <li>
+        The reactive instance, initial state, and mutations are common to all components. This is
+        why they are in the app.js file. For more complex applications, you may want to split the
+        state and mutations in different files.
+    </li>
+    <li>
+        The advantage of using a TemplateComponent is that the template is automatically updated
+        when the state changes. This is why we don't need to write any code to update the UI. The
+        only exception are forms, which require a little more work. Imagine how many lines of code
+        will cost you to scan the tasks lists and update the DOM manually.
+    </li>
+    <li>
+        I will be honest with you, the Virtual DOM differ can be slow and consume a lot of memory
+        compared to a manual DOM update. In this example we don't implement almost any optimization
+        because I want you to understand how it works. The only optimization applied is the use of
+        data-mdl-key. When the Virtual DOM differ found this attribute, it will try to reuse an existing
+        element, instead of creating new ones. This avoids re-rendering the whole list when a task is
+        added, moved or removed. The component will work exactly the same without this attribute, but
+        it will be slower. You will learn more about Virtual DOM optimization in the next examples.
+    </li>
+</ol>
+
+{{< core/showmore }}
+    {{$extraclasses}} border rounded p-3 mb-3 {{/extraclasses}}
+    {{$collapsedcontent}}
+        <p class="h4">Pros and cons of Template components... </p>
+    {{/collapsedcontent}}
+    {{$expandedcontent}}
+        <h3>Component Templates</h3>
+
+        <p>Pros:</p>
+        <ul>
+            <li>
+                Has a good developer experience. It is easy to learn and use.
+            </li>
+            <li>
+                Less code to write. The template HTML is updated automatically, which means
+                you can focus on interactions and other high value code.
+            </li>
+            <li>
+                Templates can be rendered using both backend and frontend using Mustache.
+            </li>
+        </ul>
+
+        <p>Cons:</p>
+        <ul>
+            <li>
+                The Virtual DOM differ is not optimized for complex applications.
+                You need to learn how to optimize it. Don't worry, I will teach you how to
+                do it in the next examples.
+            </li>
+            <li>
+                Template Components uses many automatic features which may look like magic.
+                In some cases, you may need more control over the rendering process. For those
+                cases, you should use BaseComponents.
+            </li>
+        </ul>
+
+    {{/expandedcontent}}
+{{/core/showmore }}

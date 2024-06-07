@@ -63,13 +63,13 @@ export const init = function(target) {
 
 // Our story starts in a small city in Transilvania. The citizen of this town live their lives happy
 // but they don't know a vampire is stalking them in the dark. The component you are going to build
-// displays the list of citizens and has a button on each one of them to mark what of them have been
+// displays the list of citizens and has a badge on each one of them to mark what of them have been
 // bitten by the vampire. Finally, you will add an extra button to cure all the citizens.
 
 // In this example you will learn how to:
 // - Instantiate a reactive module to store the frontend state data
 // - Delegate UI logic to components that react to the state changes
-// - Implement mutations to alter the state fom the components.
+// - Implement mutations to alter the state from the components.
 
 // === STEP 1: building our initial state ===
 
@@ -135,9 +135,9 @@ const state = {
 
 // Many reactive components may coexist in the same page. In our example, the course editor has it's own
 // reactive components, while our mod_nosferatu has their own. However, each components watches a specific
-// state data so they won't interfiere whith one another.
-//
-// To ensure each component works as expected. Each component must be "registered" in a specfici reactive
+// state data so they won't interfere with one another.
+
+// To ensure each component works as expected. All components must be "registered" in a specfici reactive
 // instance. A reactive instance is an object that handle all the watchers logic and contains the current
 // state data.
 
@@ -151,7 +151,7 @@ const city = new Reactive({
     state,
 });
 
-// The reactive constructor get and object with the instance description. The only required attributes
+// The reactive constructor get an object with the instance description. The only required attributes
 // are "eventName" and "eventDispatch". All the reactive library uses native JS events and all components
 // must provide their own.
 //

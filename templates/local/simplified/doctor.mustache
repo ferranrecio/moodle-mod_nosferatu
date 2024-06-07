@@ -1,0 +1,61 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_nosferatu/local/simplified/doctor
+
+    TODO describe template doctor
+
+    Example context (json):
+    {
+    }
+}}
+<div
+    class="border rounded p-3 mb-2"
+    data-mdl-nosferatu-region="doctor" {{! This is the query selector to init the component. }}
+>
+    {{^showdoctor}}
+    <div>
+        The doctor is comming.
+    </div>
+    {{/showdoctor}}
+    {{#showdoctor}}
+        <div>
+        {{^hasbitten}}
+        The doctor is not needed, no one is bitten.
+        {{/hasbitten}}
+        {{#hasbitten}}
+        Doctor
+        <button
+            data-for="doctor"
+            data-mdl-nosferatu-action="cureAll"
+            type="submit"
+            class="btn btn-secondary"
+        >
+            👩‍⚕️ Cure all citizens
+        </button>
+        {{/hasbitten}}
+        </div>
+    {{/showdoctor}}
+</div>
+{{#js}}
+require([
+    'mod_nosferatu/local/simplified/doctor',
+    'mod_nosferatu/local/simplified/app',
+], function(component, App) {
+    component.createTemplateComponent('[data-mdl-nosferatu-region="doctor"]', App.reactive);
+});
+{{/js}}

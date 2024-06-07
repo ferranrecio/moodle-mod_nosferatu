@@ -1,0 +1,69 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_nosferatu/local/simplified/vampire
+
+    The vampire template.
+
+    Thanks to TemplateComponent, we can control if the vampire has someone
+    to bite directly from the template data, without adding any logic to the
+    component. When the haspeople property is false, the template will show
+    a message and won't display the form. The new template will be loaded
+    as a virtual DOM and diffed with the current DOM content and all the
+    HTML Elements will be adjusted accordingly.
+
+    Example context (json):
+    {
+    }
+}}
+<div
+    class="border rounded p-3 mb-2"
+    data-mdl-nosferatu-region="vampire" {{! This is the query selector to init the component. }}
+>
+    <form class="form-inline" action="#" method="POST">
+        {{^haspeople}}
+        <p class="m-0">No one to bite :-(</p>
+        {{/haspeople}}
+        {{#haspeople}}
+        <div class="form-group">
+            <label for="victimSelector">Select the next victim </label>
+            <select
+                class="form-control ml-2"
+                data-mdl-ref="victim" {{! Reference to get the victim from the component. }}
+                name="victim"
+            >
+                {{#people}}
+                <option value="{{id}}">{{name}}</option>
+                {{/people}}
+            </select>
+        </div>
+        <button
+            type="submit"
+            class="btn btn-secondary ml-2"
+            data-mdl-nosferatu-action="bite" {{! Action to capture. }}
+        >🧛 Bite!</button>
+        {{/haspeople}}
+    </form>
+</div>
+{{#js}}
+require([
+    'mod_nosferatu/local/simplified/vampire',
+    'mod_nosferatu/local/simplified/app',
+], function(component, App) {
+    component.createTemplateComponent('[data-mdl-nosferatu-region="vampire"]', App.reactive);
+});
+{{/js}}

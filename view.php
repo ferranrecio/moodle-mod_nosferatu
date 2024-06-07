@@ -14,7 +14,7 @@ require(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/lib.php');
 
 $id = required_param('id', PARAM_INT);
-$section = optional_param('section', 'starter', PARAM_ALPHA);
+$section = optional_param('section', 'templatecomponents', PARAM_PATH);
 
 list($course, $cm) = get_course_and_cm_from_cmid($id, 'nosferatu');
 
@@ -50,14 +50,6 @@ if (!empty($instance->intro)) {
 $navigation = new mod_nosferatu\output\action_bar($manager, $url);
 echo $navigation->get_view_bar();
 
-switch ($section) {
-    case 'beginner':
-        $widget = new mod_nosferatu\output\beginner($manager, $section);
-        break;
-    default:
-        $widget = new mod_nosferatu\output\starter($manager, $section);
-        break;
-}
-echo $OUTPUT->render($widget);
+echo $manager->get_section_content($section);
 
 echo $OUTPUT->footer();

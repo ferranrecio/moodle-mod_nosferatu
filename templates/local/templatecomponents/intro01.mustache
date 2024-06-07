@@ -1,0 +1,174 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_nosferatu/local/templatecomponents/intro01
+
+    TODO describe template content
+
+    Example context (json):
+    {
+    }
+}}
+<p>
+    There's a <a href"https://moodledev.io/docs/4.5/guides/javascript/reactive">
+    devdocs page that explains the basics of reactivity in Moodle</a>. It's a good starting point
+    to understand how to create reactive components in Moodle. However, I can image that you are
+    looking for a more practical example. So, let's start with a dummies example possible.
+</p>
+
+<p>
+    To understand the basics of reactivity in Moodle, you only need to understand
+    the following concepts:
+</p>
+
+<ol>
+    <li>
+        <strong>State data:</strong> The state is the data that drives the application. It is shared
+        beteween all components and it is the only source of truth. When the state changes, the UI
+        components will be notified and will update themselves.
+    </li>
+    <li>
+        <strong>Reactive instance:</strong> The reactive instance is the object that manages the state
+        and triggers updates to the UI when the state changes. It ensures all your components are
+        in sync with the state and that they don't interact with other reactive applications present
+        in the same page.
+    </li>
+    <li>
+        <strong>Components:</strong> The UI elements are implemented as reusable components. Each
+        component encapsulates its own html and behavior, making it easier to manage and update
+        specific parts of the UI. All components have only two goals: keep the HTML updated with the
+        current state data, and convert user interactions into state data updates requests.
+    </li>
+    <li>
+        <strong>State mutations</strong>: the state data is readonly. This means components cannot
+        change the state directly. Instead, they must call a method on the reactive instance to
+        update the state. This ensures that all components are notified when the state changes.
+    </li>
+</ol>
+
+<h3 class="mt-5">Example</h3>
+
+<p>
+    Let's start form the beginning. The easiest way to understant is to see some examples. For this initial
+    example, you have 2 reactive components that represents the same state.
+</p>
+
+<div id="exampleApp" class="d-flex">
+    <div
+        class="border rounded mr-3 p-3"
+        data-mdl-region="exampleComponent1"
+    >
+        <p>I am a compoment that only displays the current state.</p>
+        <p> Current count <span data-mdl-ref="count">0</span></p>
+    </div>
+    <div
+        class="border rounded p-3"
+        data-mdl-region="exampleComponent2"
+    >
+        <p>I am a compoment that captures user interactions and request state updates.</p>
+        <button
+            class="btn btn-primary"
+            data-mdl-nosferatu-action="increment"
+            data-mdl-nosferatu-amount="2"
+        >Increment 2</button>
+        <button
+            class="btn btn-secondary"
+            data-mdl-nosferatu-action="increment"
+            data-mdl-nosferatu-amount="-1"
+        >Decrement 1</buttondata-mdl-nosferatu-action=>
+    </div>
+</div>
+
+<h2 class="mt-5">Let's see how this works</h2>
+
+<p>
+    All the javascript code from this example can be found in
+    mod/nosferatu/amd/src/local/templatecomponents/intro01.js. I recommend you to open this file
+    in your editor to follow the code.
+</p>
+
+{{< core/showmore }}
+    {{$extraclasses}} border rounded p-3 mb-3 {{/extraclasses}}
+    {{$collapsedcontent}}
+        <p class="h4">More information about Moodle's reactive API... </p>
+    {{/collapsedcontent}}
+    {{$expandedcontent}}
+        <h3>About Moodle's reactive API</h3>
+        <p>
+            Moodle's reactive API is not a full framework like React or Vue.js. It is a set of
+            utilities that can be used to create reactive components in Moodle plugins.
+            The reactive API is designed to be simple and lightweight, and it is intended to be used
+            in conjunction with mustache templates and Moodle AMD modules.
+        </p>
+
+        <p>
+            The reactive API provide only the following features:
+        </p>
+
+        <ul>
+            <li>
+                <strong>Single level reactive state</strong>: each application can define a data structure
+                called state. However, only the first level is fully reactive.
+            </li>
+            <li>
+                <strong>Component-based Architecture:</strong> the UI elements are implemented as reusable components.
+                Each component encapsulates its own state and behavior, making it easier to manage
+                and update specific parts of the UI.</li>
+            <li>
+                <strong>Virtual DOM implementation</strong>: the reactive API provides a virtual DOM implementation
+                that can be used to create reactive components without having to deal with the real DOM.
+                However, it's use is optional.
+            </li>
+            <li>
+                Some helpers for drag & drop and other common UI interactions.
+            </li>
+        </ul>
+
+        <p>
+            Typical reactive features that are not provided by the reactive API:
+        </p>
+
+        <ul>
+            <li>
+                <strong>Data Binding:</strong> Reactive frameworks provide mechanisms to bind data to UI elements,
+                ensuring that any changes in the data are reflected in the UI and vice versa.
+            </li>
+            <li>
+                <strong>Component parameters and event bubbling: </strong> Reactive frameworks allow components to
+                communicate with each other by passing parameters and emitting events. They must be manually implemented
+                when necessary.
+            </li>
+            <li>
+                <strong>Computed properties and signals:</strong> Reactive frameworks allow developers to define
+                computed properties that are derived from other reactive properties. This can be useful for complex
+                data transformations or calculations.
+            </li>
+            <li>
+                <strong>Dyanmic routing:</strong> Reactive frameworks provide mechanisms to create single-page
+                applications with client-side routing.
+            </li>
+        </ul>
+    {{/expandedcontent}}
+{{/core/showmore }}
+
+{{#js}}
+require([
+    'mod_nosferatu/local/templatecomponents/intro01',
+], function(example) {
+    example.init();
+});
+{{/js}}
